@@ -1,22 +1,15 @@
-{{ define "main" }}
-
-<section class="site-blog-header">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 text-center">
-        <h1>{{ .Title }}</h1>
-        <p>
-          {{ .Params.description }}
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="site-blog">
+{{ with .Site.Params.portfolio }}
+  {{ if .enable }}
+<section class="site-blog" id="blog">
   <div class="container">
     <div class="row">
-      {{ range (.Paginator 4).Pages }}
+      <div class="col-12">
+        <div class="section-title">
+          <h2>{{ .title }}</h2>
+          <p>{{ .subtitle }}</p>
+        </div>
+      </div>
+      {{ range first 4 (where $.Site.RegularPages "Type" "blog") }}
       <div class="col-lg-6">
         <article class="site-blog-post">
           {{ with .Params.image }}
@@ -37,13 +30,10 @@
       {{ end }}
       <div class="col-12">
         <div class="site-blog-pagination">
-          {{ template "_internal/pagination.html" . }}
         </div>
       </div>
     </div>
   </div>
 </section>
-
-{{ partial "call-to-action.html" . }}
-
+{{ end }}
 {{ end }}
